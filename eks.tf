@@ -24,22 +24,14 @@ module "eks" {
   subnet_ids               = aws_subnet.private_subnets[*].id
   control_plane_subnet_ids = aws_subnet.private_subnets[*].id
 
-  # EKS Managed Node Group(s)
-  eks_managed_node_groups = {
-    example = {
-      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
-      ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = var.node_group_instance_types
+eks_managed_node_groups = {
+  example = {
+    ami_type       = "AL2023_x86_64_STANDARD"
+    instance_types = var.node_group_instance_types
+    min_size       = var.node_group_min_size
+    max_size       = var.node_group_max_size
+    desired_size   = var.node_group_desired_size
 
-      min_size       = var.node_group_min_size
-      max_size       = var.node_group_max_size
-      desired_size   = var.node_group_desired_size
-    }
-  }
-
-  # Adding lifecycle rules to nodes
-  eks_managed_node_group_defaults = {
-    # Prevent accidental recreation of nodes
     lifecycle = {
       ignore_changes = [
         desired_size,
@@ -48,6 +40,11 @@ module "eks" {
       ]
     }
   }
+}
+
+  }
+
+  
   tags = {
     Terraform = "true"
   }
