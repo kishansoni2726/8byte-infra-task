@@ -37,6 +37,17 @@ module "eks" {
     }
   }
 
+  # Adding lifecycle rules to nodes
+  eks_managed_node_group_defaults = {
+    # Prevent accidental recreation of nodes
+    lifecycle = {
+      ignore_changes = [
+        desired_size,
+        scaling_config[0].desired_size,
+        tags,
+      ]
+    }
+  }
   tags = {
     Terraform = "true"
   }
