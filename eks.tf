@@ -35,6 +35,8 @@ module "eks" {
       max_size       = var.node_group_max_size
       desired_size   = var.node_group_desired_size
       disk_size      = 30
+      force_update_version = true
+
 
     }
   }
