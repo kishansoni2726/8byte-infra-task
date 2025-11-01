@@ -26,8 +26,9 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
-    example-20251028135602095400000001 = {
-      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
+    example = {
+
+      name = "${var.project}-ng"
       ami_type       = "AL2023_x86_64_STANDARD"
       instance_types = var.node_group_instance_types
 
@@ -35,7 +36,7 @@ module "eks" {
       max_size       = var.node_group_max_size
       desired_size   = var.node_group_desired_size
       disk_size      = 30
-      force_update_version = true
+      force_update_version = false
 
 
     }
